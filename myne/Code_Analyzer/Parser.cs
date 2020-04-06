@@ -51,7 +51,7 @@ namespace myne.Code_Analyzer
             return current_node_obj;
         }
 
-        private Syntax_Tokens_Set Match(Syntax_Kind_of_Token kind_of_token_object)
+        private Syntax_Tokens_Set Match_Token(Syntax_Kind_of_Token kind_of_token_object)
         {
             if (Current_Node.Kind_Of_Token == kind_of_token_object)
                 return Next_Token_in_Set();
@@ -63,8 +63,8 @@ namespace myne.Code_Analyzer
 
         public Syntax_Tree Parse()
         {
-            var expression = Parse_for_Addition_and_Subtraction();
-            var end_of_file_object = Match(Syntax_Kind_of_Token.End_of_File_Token);
+            var expression = Parse_Expression();
+            var end_of_file_object = Match_Token(Syntax_Kind_of_Token.End_of_File_Token);
             return new Syntax_Tree(_diagnostics, expression, end_of_file_object);
         }
 
@@ -109,12 +109,12 @@ namespace myne.Code_Analyzer
             {
                 var left = Next_Token_in_Set();
                 var expression = Parse_Expression();
-                var right = Match(Syntax_Kind_of_Token.Closed_Parenthesis_Token);
+                var right = Match_Token(Syntax_Kind_of_Token.Closed_Parenthesis_Token);
                 return new Parenthesized_Expression_Syntax_Node(left, expression, right);
             }
 
-            var number_token = Match(Syntax_Kind_of_Token.Number_Tokens);
-            return new Number_Expression_Syntax_Node(number_token);
+            var number_token = Match_Token(Syntax_Kind_of_Token.Number_Tokens);
+            return new Literal_Expression_Syntax_Node(number_token);
         }
     }
 }

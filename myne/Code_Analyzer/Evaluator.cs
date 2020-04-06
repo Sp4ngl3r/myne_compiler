@@ -18,8 +18,8 @@ namespace myne.Code_Analyzer
 
         private int Evaluate_Expression(Expression_Syntax_Node node)
         {
-            if (node is Number_Expression_Syntax_Node n)
-                return (int)n.Numbers_Token_Object.Value;
+            if (node is Literal_Expression_Syntax_Node n)
+                return (int)n.Literals_Token_Object.Value;
 
             if (node is Binary_Expression_Syntax_Node b)
             {
