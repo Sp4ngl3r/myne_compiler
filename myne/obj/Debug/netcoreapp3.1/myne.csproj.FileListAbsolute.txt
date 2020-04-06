@@ -1,0 +1,11 @@
+C:\Projects\Myne Compiler\Myne\myne\bin\Debug\netcoreapp3.1\myne.exe
+C:\Projects\Myne Compiler\Myne\myne\bin\Debug\netcoreapp3.1\myne.deps.json
+C:\Projects\Myne Compiler\Myne\myne\bin\Debug\netcoreapp3.1\myne.runtimeconfig.json
+C:\Projects\Myne Compiler\Myne\myne\bin\Debug\netcoreapp3.1\myne.runtimeconfig.dev.json
+C:\Projects\Myne Compiler\Myne\myne\bin\Debug\netcoreapp3.1\myne.dll
+C:\Projects\Myne Compiler\Myne\myne\bin\Debug\netcoreapp3.1\myne.pdb
+C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.csprojAssemblyReference.cache
+C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.AssemblyInfoInputs.cache
+C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.AssemblyInfo.cs
+C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.dll
+C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.pdb
