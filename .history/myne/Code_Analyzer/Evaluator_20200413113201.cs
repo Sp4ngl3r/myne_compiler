@@ -1,5 +1,4 @@
 using System;
-using myne.Code_Analyzer.Syntax;
 
 namespace myne.Code_Analyzer
 {
@@ -36,7 +35,7 @@ namespace myne.Code_Analyzer
                     throw new Exception($"Unexpected unary operator {u.Operator_Token.Kind_Of_Token}");
             }
 
-            if (node is Binary_Expression_Syntax_Node b)
+            if (node is Binary_Expression_Syntax_Node b)   //TODO an expression check.
             {
                 var left = Evaluate_Expression(b.Left_Token);
                 var right = Evaluate_Expression(b.Right_Token);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using myne.Code_Analyzer;
-using myne.Code_Analyzer.Syntax;
 
 namespace myne
 {
@@ -33,18 +32,18 @@ namespace myne
                     continue;
                 }
 
-                var syntax_tree_object = Syntax_Tree.Parse(input_line);
+                var syntax_treee_object = Syntax_Tree.Parse(input_line);
 
                 if (show_tree)
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Sample_Print(syntax_tree_object.Root_Node);
+                    Sample_Print(syntax_treee_object.Root_Node);
                     Console.ResetColor();
                 }
 
-                if (!syntax_tree_object.Diagnostics.Any())
+                if (!syntax_treee_object.Diagnostics.Any())
                 {
-                    var expression_object = new Evaluator(syntax_tree_object.Root_Node);
+                    var expression_object = new Evaluator(syntax_treee_object.Root_Node);
                     var evaluated_result = expression_object.Evaluate();
                     Console.WriteLine(evaluated_result);
                 }
@@ -52,7 +51,7 @@ namespace myne
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
 
-                    foreach (var diagnostics in syntax_tree_object.Diagnostics)
+                    foreach (var diagnostics in syntax_treee_object.Diagnostics)
                         Console.WriteLine(diagnostics);
 
                     Console.ResetColor();

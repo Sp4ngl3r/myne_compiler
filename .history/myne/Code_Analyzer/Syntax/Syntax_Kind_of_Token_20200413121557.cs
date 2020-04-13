@@ -4,8 +4,8 @@ namespace myne.Code_Analyzer
     {
 
         //These are normal or basic tokens.
-        Number_Tokens,
-        Whitespace_Tokens,
+        Number_Token,
+        Whitespace_Token,
         Plus_Token,
         Minus_Token,
         Star_Token,
@@ -18,7 +18,9 @@ namespace myne.Code_Analyzer
 
         //These are expression variables.
         Literal_Expression,
+        Unary_Expression,
         Binary_Expression,
-        Parenthesized_Expression
+        Parenthesized_Expression,
+
     }
 }

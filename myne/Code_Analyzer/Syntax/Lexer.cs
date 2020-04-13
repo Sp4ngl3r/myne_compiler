@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace myne.Code_Analyzer
+namespace myne.Code_Analyzer.Syntax
 {
     internal sealed class Lexer
     {
@@ -30,11 +30,8 @@ namespace myne.Code_Analyzer
         {
             _position++;
         }
-        public Syntax_Tokens_Set Next_Token_in_Set()
+        public Syntax_Tokens_Set Lex()
         {
-            // numbers
-            // +  -  *  /  (  )
-            // whitespace
 
             if (_position >= _text.Length)
             {
@@ -54,7 +51,7 @@ namespace myne.Code_Analyzer
                 if (!int.TryParse(text, out var value))
                     _diagnostics.Add($"The number {_text} is illegal Integer-32");
 
-                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Number_Tokens, start, text, value);
+                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Number_Token, start, text, value);
             }
 
             if (char.IsWhiteSpace(Current_Character))
@@ -67,26 +64,24 @@ namespace myne.Code_Analyzer
                 var length_of_text = _position - start;
                 var text = _text.Substring(start, length_of_text);
 
-                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Whitespace_Tokens, start, text, null);
+                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Whitespace_Token, start, text, null);
             }
 
-            if (Current_Character == '+')
-                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Plus_Token, _position++, "+", null);
-
-            else if (Current_Character == '-')
-                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Minus_Token, _position++, "-", null);
-
-            else if (Current_Character == '*')
-                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Star_Token, _position++, "*", null);
-
-            else if (Current_Character == '/')
-                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Slash_Token, _position++, "/", null);
-
-            else if (Current_Character == '(')
-                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Open_Parenthesis_Token, _position++, "(", null);
-
-            else if (Current_Character == ')')
-                return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Closed_Parenthesis_Token, _position++, ")", null);
+            switch (Current_Character)
+            {
+                case '+':
+                    return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Plus_Token, _position++, "+", null);
+                case '-':
+                    return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Minus_Token, _position++, "-", null);
+                case '*':
+                    return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Star_Token, _position++, "*", null);
+                case '/':
+                    return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Slash_Token, _position++, "/", null);
+                case '(':
+                    return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Open_Parenthesis_Token, _position++, "(", null);
+                case ')':
+                    return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Closed_Parenthesis_Token, _position++, ")", null);
+            }
 
             _diagnostics.Add($"ERROR: Bad Character Input: '{Current_Character}'");
 
