@@ -9,3 +9,5 @@ C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.AssemblyInfoInp
 C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.AssemblyInfo.cs
 C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.dll
 C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.pdb
+C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.csproj.CoreCompileInputs.cache
+C:\Projects\Myne Compiler\Myne\myne\obj\Debug\netcoreapp3.1\myne.genruntimeconfig.cache

@@ -19,7 +19,7 @@ namespace myne.Code_Analyzer.Syntax
                 token_obj = lexer_obj.Lex();
 
                 if (token_obj.Kind_Of_Token != Syntax_Kind_of_Token.Whitespace_Token &&
-                   token_obj.Kind_Of_Token != Syntax_Kind_of_Token.Invalid_Token)
+                    token_obj.Kind_Of_Token != Syntax_Kind_of_Token.Invalid_Token)
                 {
                     tokens_set.Add(token_obj);
                 }
@@ -151,16 +151,31 @@ namespace myne.Code_Analyzer.Syntax
 
         private Expression_Syntax_Node Parse_Primary_Expression()
         {
-            if (Current_Node.Kind_Of_Token == Syntax_Kind_of_Token.Open_Parenthesis_Token)
+            switch (Current_Node.Kind_Of_Token)
             {
-                var left = Next_Token_in_Set();
-                var expression = Parse_Expression();
-                var right = Match_Token(Syntax_Kind_of_Token.Closed_Parenthesis_Token);
-                return new Parenthesized_Expression_Syntax_Node(left, expression, right);
-            }
+                case Syntax_Kind_of_Token.Open_Parenthesis_Token:
+                    {
+                        var left = Next_Token_in_Set();
+                        var expression = Parse_Expression();
+                        var right = Match_Token(Syntax_Kind_of_Token.Closed_Parenthesis_Token);
+                        return new Parenthesized_Expression_Syntax_Node(left, expression, right);
+                    }
 
-            var number_token = Match_Token(Syntax_Kind_of_Token.Number_Token);
-            return new Literal_Expression_Syntax_Node(number_token);
+                case Syntax_Kind_of_Token.False_Keyword:
+                case Syntax_Kind_of_Token.True_Keyword:                
+                    {
+                        var keyword_token = Next_Token_in_Set();
+                        var value = keyword_token.Kind_Of_Token == Syntax_Kind_of_Token.True_Keyword;
+                        return new Literal_Expression_Syntax_Node(keyword_token, value);
+                    }
+
+                default:
+                    {
+                        var number_token = Match_Token(Syntax_Kind_of_Token.Number_Token);
+                        return new Literal_Expression_Syntax_Node(number_token);
+                    }
+
+            }
         }
     }
 }

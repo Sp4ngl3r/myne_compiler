@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using myne.Code_Analyzer;
+using myne.Code_Analyzer.Binding;
 using myne.Code_Analyzer.Syntax;
 
 namespace myne
@@ -34,6 +36,10 @@ namespace myne
                 }
 
                 var syntax_tree_object = Syntax_Tree.Parse(input_line);
+                var binder = new Binder();
+                var bound_expression = binder.Bind_Expression(syntax_tree_object.Root_Node);
+
+                var diagnostics = syntax_tree_object.Diagnostics.Concat(binder.Diagnostics).ToArray();
 
                 if (show_tree)
                 {
@@ -42,9 +48,9 @@ namespace myne
                     Console.ResetColor();
                 }
 
-                if (!syntax_tree_object.Diagnostics.Any())
+                if (!diagnostics.Any())
                 {
-                    var expression_object = new Evaluator(syntax_tree_object.Root_Node);
+                    var expression_object = new Evaluator(bound_expression);
                     var evaluated_result = expression_object.Evaluate();
                     Console.WriteLine(evaluated_result);
                 }
@@ -52,8 +58,8 @@ namespace myne
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
 
-                    foreach (var diagnostics in syntax_tree_object.Diagnostics)
-                        Console.WriteLine(diagnostics);
+                    foreach (var diagnostic in diagnostics)
+                        Console.WriteLine(diagnostic);
 
                     Console.ResetColor();
                 }

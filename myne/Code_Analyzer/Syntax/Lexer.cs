@@ -15,15 +15,17 @@ namespace myne.Code_Analyzer.Syntax
 
         public IEnumerable<string> Diagnostics => _diagnostics;
 
-        private char Current_Character
-        {
-            get
-            {
-                if (_position >= _text.Length)
-                    return '\0';
+        private char Current_Character => Peek(0);
+        private char Look_Ahead => Peek(1);
 
-                return _text[_position];
-            }
+        private char Peek(int offset)
+        {
+            var index = _position + offset;
+
+            if (index >= _text.Length)
+                return '\0';
+
+            return _text[index];
         }
 
         private void Next_Character()
@@ -54,6 +56,20 @@ namespace myne.Code_Analyzer.Syntax
                 return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Number_Token, start, text, value);
             }
 
+            if (char.IsLetter(Current_Character))
+            {
+                var start = _position;
+
+                while (char.IsLetter(Current_Character))
+                    Next_Character();
+
+                var length_of_text = _position - start;
+                var text = _text.Substring(start, length_of_text);
+                var kind = Syntax_Operator_Precedence.Get_Keyword_Kind(text);
+
+                return new Syntax_Tokens_Set(kind, start, text, null);
+            }
+
             if (char.IsWhiteSpace(Current_Character))
             {
                 var start = _position;
@@ -65,6 +81,7 @@ namespace myne.Code_Analyzer.Syntax
                 var text = _text.Substring(start, length_of_text);
 
                 return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Whitespace_Token, start, text, null);
+
             }
 
             switch (Current_Character)
@@ -81,6 +98,23 @@ namespace myne.Code_Analyzer.Syntax
                     return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Open_Parenthesis_Token, _position++, "(", null);
                 case ')':
                     return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Closed_Parenthesis_Token, _position++, ")", null);
+                case '&':
+                    if (Look_Ahead == '&')
+                        return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Ampersand_Ampersand_Token, _position += 2, "&&", null);
+                    break;
+                case '|':
+                    if (Look_Ahead == '|')
+                        return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Pipe_Pipe_Token, _position += 2, "||", null);
+                    break;
+                case '=':
+                    if (Look_Ahead == '=')
+                        return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Equals_Equals_Token, _position += 2, "==", null);
+                    break;
+                case '!':
+                    if (Look_Ahead == '=')
+                        return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Not_Equals_Token, _position += 2, "!=", null);
+                    else
+                        return new Syntax_Tokens_Set(Syntax_Kind_of_Token.Not_Token, _position++, "!", null);
             }
 
             _diagnostics.Add($"ERROR: Bad Character Input: '{Current_Character}'");

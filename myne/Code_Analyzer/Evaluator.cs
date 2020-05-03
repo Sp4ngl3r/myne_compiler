@@ -1,66 +1,73 @@
 using System;
+using myne.Code_Analyzer.Binding;
 using myne.Code_Analyzer.Syntax;
 
 namespace myne.Code_Analyzer
 {
-    public sealed class Evaluator
+    internal sealed class Evaluator
     {
-        private readonly Expression_Syntax_Node _root_node;
+        private readonly Bound_Expression_Node _root_node;
 
-        public Evaluator(Expression_Syntax_Node root_node)
+        public Evaluator(Bound_Expression_Node root_node)
         {
             _root_node = root_node;
         }
 
-        public int Evaluate()
+        public object Evaluate()
         {
             return Evaluate_Expression(_root_node);
         }
 
-        private int Evaluate_Expression(Expression_Syntax_Node node)
+        private object Evaluate_Expression(Bound_Expression_Node node)
         {
-            if (node is Literal_Expression_Syntax_Node n)
-                return (int)n.Literals_Token_Object.Value;
+            if (node is Bound_Literal_Expression_Node n)
+                return n.Value;
 
-            if (node is Unary_Expression_Syntax_Node u)
+            if (node is Bound_Unary_Expression_Node u)
             {
-                var operand = Evaluate_Expression(u.Operand_token);
+                var operand = Evaluate_Expression(u.Operand);
 
-                if (u.Operator_Token.Kind_Of_Token == Syntax_Kind_of_Token.Plus_Token)
-                    return operand;
-
-                else if (u.Operator_Token.Kind_Of_Token == Syntax_Kind_of_Token.Minus_Token)
-                    return -operand;
-
-                else
-                    throw new Exception($"Unexpected unary operator {u.Operator_Token.Kind_Of_Token}");
+                switch (u.Op.Kind)
+                {
+                    case Bound_Unary_Operator_Kind.Identity:
+                        return (int)operand;
+                    case Bound_Unary_Operator_Kind.Negation:
+                        return -(int)operand;
+                    case Bound_Unary_Operator_Kind.Logical_Negation:
+                        return !(bool)operand;
+                    default:
+                        throw new Exception($"Unexpected unary operator {u.Op}");
+                }
             }
 
-            if (node is Binary_Expression_Syntax_Node b)
+            if (node is Bound_Binary_Expression_Node b)
             {
-                var left = Evaluate_Expression(b.Left_Token);
-                var right = Evaluate_Expression(b.Right_Token);
+                var left = Evaluate_Expression(b.Left);
+                var right = Evaluate_Expression(b.Right);
 
-                if (b.Operator_Token.Kind_Of_Token == Syntax_Kind_of_Token.Plus_Token)
-                    return left + right;
-
-                else if (b.Operator_Token.Kind_Of_Token == Syntax_Kind_of_Token.Minus_Token)
-                    return left - right;
-
-                else if (b.Operator_Token.Kind_Of_Token == Syntax_Kind_of_Token.Star_Token)
-                    return left * right;
-
-                else if (b.Operator_Token.Kind_Of_Token == Syntax_Kind_of_Token.Slash_Token)
-                    return left / right;
-
-                else
-                    throw new Exception($"Unexpected binary operator {b.Operator_Token.Kind_Of_Token}");
+                switch (b.Op.Kind)
+                {
+                    case Bound_Binary_Operator_Kind.Addition:
+                        return (int)left + (int)right;
+                    case Bound_Binary_Operator_Kind.Subtraction:
+                        return (int)left - (int)right;
+                    case Bound_Binary_Operator_Kind.Multiplication:
+                        return (int)left * (int)right;
+                    case Bound_Binary_Operator_Kind.Division:
+                        return (int)left / (int)right;
+                    case Bound_Binary_Operator_Kind.Logical_And:
+                        return (bool)left && (bool)right;
+                    case Bound_Binary_Operator_Kind.Logical_Or:
+                        return (bool)left || (bool)right;
+                    case Bound_Binary_Operator_Kind.Equals:
+                        return Equals(left, right);
+                    case Bound_Binary_Operator_Kind.Not_Equals:
+                        return !Equals(left, right);
+                    default:
+                        throw new Exception($"Unexpected binary operator {b.Op}");
+                }
             }
-
-            if (node is Parenthesized_Expression_Syntax_Node p)
-                return Evaluate_Expression(p.Expression);
-
-            throw new Exception($"Invalid Node {node.Kind_Of_Token}");
+            throw new Exception($"Invalid Node {node.Kind}");
         }
     }
 }

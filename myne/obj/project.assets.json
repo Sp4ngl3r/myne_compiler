@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects\\Myne Compiler\\Myne\\myne\\myne.csproj",
+      "projectUniqueName": "c:\\Projects\\Myne Compiler\\Myne\\myne\\myne.csproj",
       "projectName": "myne",
-      "projectPath": "C:\\Projects\\Myne Compiler\\Myne\\myne\\myne.csproj",
+      "projectPath": "c:\\Projects\\Myne Compiler\\Myne\\myne\\myne.csproj",
       "packagesPath": "C:\\Users\\Hemanth Kumar\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\Myne Compiler\\Myne\\myne\\obj\\",
+      "outputPath": "c:\\Projects\\Myne Compiler\\Myne\\myne\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Hemanth Kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -58,7 +58,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
