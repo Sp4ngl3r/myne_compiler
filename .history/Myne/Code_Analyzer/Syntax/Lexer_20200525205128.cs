@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace myne.Code_Analyzer.Syntax
 {
     internal sealed class Lexer
